@@ -18,9 +18,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="pGA-34-Jkt">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg-header" translatesAutoresizingMaskIntoConstraints="NO" id="J9L-1S-7W4">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AkO-Nt-c50">
+                                    <rect key="frame" x="8" y="8" width="88.5" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="AkO-Nt-c50" firstAttribute="leading" secondItem="pGA-34-Jkt" secondAttribute="leading" constant="8" id="5G5-Vp-VI8"/>
+                                <constraint firstAttribute="trailing" secondItem="J9L-1S-7W4" secondAttribute="trailing" id="UoZ-9c-w2d"/>
+                                <constraint firstItem="J9L-1S-7W4" firstAttribute="leading" secondItem="pGA-34-Jkt" secondAttribute="leading" id="Xkq-mZ-82s"/>
+                                <constraint firstItem="AkO-Nt-c50" firstAttribute="top" secondItem="pGA-34-Jkt" secondAttribute="top" constant="8" id="lMb-BB-igA"/>
+                                <constraint firstItem="J9L-1S-7W4" firstAttribute="top" secondItem="pGA-34-Jkt" secondAttribute="top" id="q7V-xj-buH"/>
+                                <constraint firstAttribute="bottom" secondItem="J9L-1S-7W4" secondAttribute="bottom" id="vfw-sD-LOd"/>
+                            </constraints>
+                        </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="75" id="QCa-gv-efs">
-                                <rect key="frame" x="0.0" y="28" width="375" height="75"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="75" id="QCa-gv-efs" customClass="NewsItemTableViewCell" customModule="Stretchy_Headers" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="328" width="375" height="75"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QCa-gv-efs" id="Bdq-Fc-5hp">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="74.5"/>
@@ -34,7 +58,7 @@
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test headline for font wrapping, does this actually work?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qFX-Or-bx6">
                                             <rect key="frame" x="8" y="37" width="359" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -49,6 +73,10 @@
                                         <constraint firstItem="qFX-Or-bx6" firstAttribute="width" secondItem="DRl-em-0d6" secondAttribute="width" id="e91-ah-yAs"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="categoryLabel" destination="DRl-em-0d6" id="b1w-Vz-Him"/>
+                                    <outlet property="headlineLabel" destination="qFX-Or-bx6" id="4LL-dq-pkE"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -56,10 +84,16 @@
                             <outlet property="delegate" destination="0Gu-D8-azm" id="zbK-4R-3hI"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="currentDateLabel" destination="AkO-Nt-c50" id="71f-rf-6Lg"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wgF-hO-SR7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="141.59999999999999" y="102.99850074962519"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bg-header" width="621" height="412"/>
+    </resources>
 </document>
