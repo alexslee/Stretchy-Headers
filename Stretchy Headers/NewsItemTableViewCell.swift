@@ -15,6 +15,7 @@ class NewsItemTableViewCell: UITableViewCell {
     @IBOutlet weak var headlineLabel: UILabel!
     
     var newsItem: NewsItem? {
+        //when the newsItem property is set, fill in the cell's corresponding labels
         didSet {
             if let item = newsItem {
                 categoryLabel.text = item.category.toString()

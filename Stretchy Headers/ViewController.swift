@@ -12,9 +12,10 @@ class ViewController: UITableViewController {
     
     // MARK: properties
     var headerView: UIView!
-    let kTableHeaderHeight:CGFloat = 300.0
     @IBOutlet weak var currentDateLabel: UILabel!
-    
+    private let kTableHeaderHeight:CGFloat = 300.0
+    private let kTableHeaderCutAway: CGFloat = 80.0
+    var headerMaskLayer: CAShapeLayer!
     let items = [
         NewsItem(category: .World, story: "Climate change protests, divestments meet fossil fuels realities"),
         NewsItem(category: .Europe, story: "Scotland's 'Yes' leader says independence vote is 'once in a lifetime'"),
@@ -30,21 +31,30 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view, typically from a nib.
         //setup header view
         headerView = tableView.tableHeaderView
         tableView.tableHeaderView = nil
         tableView.addSubview(headerView)
+        let effectiveHeight = kTableHeaderHeight-kTableHeaderCutAway/2
+        tableView.contentInset = UIEdgeInsets(top: effectiveHeight, left: 0, bottom: 0, right: 0)
+        tableView.contentOffset = CGPoint(x: 0, y: -effectiveHeight)
         tableView.contentInset = UIEdgeInsetsMake(kTableHeaderHeight, 0, 0, 0)
         tableView.contentOffset = CGPoint(x: 0, y: kTableHeaderHeight)
+        
+        //setup the 'cutaway' mask
+        headerMaskLayer = CAShapeLayer()
+        headerMaskLayer.fillColor = UIColor.black.cgColor
+        headerView.layer.mask = headerMaskLayer
         updateHeaderView()
         
+        //fill in the current date label
         let today = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM dd"
         let formattedToday = formatter.string(from: today)
         currentDateLabel.text = formattedToday
         
+        //set the cell height to fit its contents
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 175
     }
@@ -66,13 +76,22 @@ class ViewController: UITableViewController {
     // MARK: UITableView
     
     func updateHeaderView() {
-        var headerRect = CGRect(x: 0, y: -kTableHeaderHeight, width: tableView.bounds.width, height: kTableHeaderHeight)
-        if tableView.contentOffset.y < -kTableHeaderHeight {
+        //format the header dimensions
+        let effectiveHeight = kTableHeaderHeight-kTableHeaderCutAway/2
+        var headerRect = CGRect(x: 0, y: -effectiveHeight, width: tableView.bounds.width, height: kTableHeaderHeight)
+        if tableView.contentOffset.y < -effectiveHeight {
             headerRect.origin.y = tableView.contentOffset.y
-            headerRect.size.height = -tableView.contentOffset.y
+            headerRect.size.height = -tableView.contentOffset.y + kTableHeaderCutAway/2
         }
-        
         headerView.frame = headerRect
+        
+        //construct the path for the 'cutaway' mask
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: headerRect.width, y: 0))
+        path.addLine(to: CGPoint(x: headerRect.width, y: headerRect.height))
+        path.addLine(to: CGPoint(x: 0, y:headerRect.height - kTableHeaderCutAway))
+        headerMaskLayer?.path = path.cgPath
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -85,7 +104,7 @@ class ViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! NewsItemTableViewCell
-        
+        //fill in the cell with the corresponding article
         cell.newsItem = items[indexPath.row]
         
         return cell
